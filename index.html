@@ -13,6 +13,7 @@
             .center { margin: 0 auto; align-self: center; text-align: center; color: white; font-size: 5rem; }
             .bg { background: radial-gradient(ellipse at top left, #6061a7, transparent), radial-gradient(ellipse at top right, #6ef5c1, transparent), radial-gradient(ellipse at bottom, #ffce00, #af620a); animation: bg 15s infinite linear; }
             @media (prefers-reduced-motion: reduce) {
+                .center { transform: none !important; }
                 .bg { animation: none; }
             }
 
@@ -26,5 +27,28 @@
 
     <body class="container bg">
         <span class="center" id="text">Weird flex but ok</span>
+
+        <script>
+            function logistic(x, max = 1) {
+                return (2 * max) / (1 + Math.pow(Math.E, -0.01 * x)) - max
+            }
+            function transform(x, y) {                
+                const matrix = [
+                    1, 0, 0, logistic(x - (window.innerWidth / 2)) / 1000,
+                    0, 1, 0, logistic(y - (window.innerHeight / 2)) / 250,
+                    0, 0, 1, 0,
+                    0, 0, 0, 1
+                ]
+                text.setAttribute('style', `transform: matrix3d(${matrix.join(', ')})`)
+            }
+
+            const text = document.getElementById('text')
+            // TODO: throttle the events
+            document.addEventListener('mousemove', (e) => { transform(e.x, e.y) }, false)
+            document.addEventListener('touchmove', (e) => {
+                // TODO: support multi-touch? (maybe avg vals)
+                transform(e.targetTouches[0].clientX, e.targetTouches[0].clientY)
+            }, false)
+        </script>
     </body>
 </html>
