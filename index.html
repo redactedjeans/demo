@@ -3,49 +3,26 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width,initial-scale=1'>
-    <title>Weird Flex But OK</title>
-    <meta name='description' content='Weird Flex But OK'>
+    <title>CSS Experiments</title>
+    <meta name='description' content='CSS Experiments & Other Nonsense'>
     <link rel='icon' href='data:,'>
 
     <style>
-      * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; }
-      body { margin: 0; width: 100vw; height: 100vh; overflow: hidden; }
-      .container { display:flex; }
-      .center { margin: 0 auto; align-self: center; text-align: center; color: white; font-size: 5rem; padding: 3rem; }
-      .bg { background: radial-gradient(ellipse at top left, #6061a7, transparent), radial-gradient(ellipse at top right, #6ef5c1, transparent), radial-gradient(ellipse at bottom, #ffce00, #af620a); animation: bg 15s infinite linear; }
-      @media (prefers-reduced-motion: reduce) {
-        .center { transform: none !important; }
-        .bg { animation: none; }
-      }
-
-      @keyframes bg {
-        to {
-          backdrop-filter: hue-rotate(360deg)
-        }
-      }
+      * {box-sizing: border-box; }
+      body { font-family: sans-serif; }
+      h1 { margin-bottom: .5rem; }
+      ul { margin-top: 0; list-style: none; padding-left: 1rem; }
+      li { margin-bottom: .3rem; }
+      small { color: #333; }
     </style>
   </head>
 
-  <body class="container bg">
-    <span class="center" id="text">Weird flex but ok</span>
-
-    <script>
-      function logistic(x, max = 1) {
-        return (2 * max) / (1 + Math.pow(Math.E, -0.01 * x)) - max
-      }
-      function transform(x, y) {
-        const rx = logistic(y - (window.innerHeight / 2), 45)
-        const ry = logistic(x - (window.innerWidth / 2), 45)
-        text.setAttribute('style', `transform: perspective(100rem) rotateX(${-rx}deg) rotateY(${ry}deg)`)
-      }
-
-      const text = document.getElementById('text')
-      // TODO: throttle the events
-      document.addEventListener('mousemove', (e) => { transform(e.x, e.y) }, false)
-      document.addEventListener('touchmove', (e) => {
-        // TODO: support multi-touch? (maybe avg vals)
-        transform(e.targetTouches[0].clientX, e.targetTouches[0].clientY)
-      }, false)
-    </script>
+  <body>
+    <h1>Pages</h1>
+    <ul>
+      <li><a href="flex.html">Weird Flex But OK</a> <small>(css filters & backdrop-filter, 3d transforms)</small></li>
+      <li><a href="filter.html">SVG Filter Playground</a> <small>(svg filters: feTurbulence + feDisplacementMap)</small></li>
+      <li><a href="glitch.html">GLITCH</a> <small>(dynamically-styled pseudoelements, svg filters)</small></li>
+    </ul>
   </body>
 </html>
