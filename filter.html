@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <title>SVG Filter | Test</title>
+    <style>
+      /* reset/general */
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: sans-serif; }
+      /* svg + filtered text */
+      svg { position: absolute; top: 0; left: 0; z-index: -1; }
+      .filtered { font-size: 10rem; filter: url("#filter"); margin-bottom: 5rem; }
+      /* form stuff */
+      form { padding: 0 .5rem; }
+      .d-flex { display: flex; align-items: baseline; }
+      fieldset { display: inline; vertical-align: top; background: white; }
+      input[type="text"] { margin-bottom: .5rem; margin-left: .5rem; flex: 1; }
+    </style>
+  </head>
+
+  <body>
+    <!-- svg -->
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="fill">
+          <feTurbulence baseFrequency=".04" numOctaves="1" seed="0" stitchTiles="noStitch" type="turbulence"/>
+        </filter>
+        <filter id="filter">
+          <feTurbulence baseFrequency=".04" numOctaves="1" seed="0" stitchTiles="noStitch" type="turbulence" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="50"/>
+        </filter>
+      </defs>
+      <rect width="100%" height="100%" filter="url(#fill)"/>
+    </svg>
+
+    <!-- text -->
+    <div class="filtered" id="text">Some Text</div>
+
+    <!-- controls -->
+    <form>
+      <div class="d-flex">
+        <label for="textInput">Text:</label>
+        <input id="textInput" type="text" value="Some Text">
+      </div>
+      <fieldset>
+        <legend>feTurbulence</legend>
+        <div>
+          <label for="freqRange">baseFrequency</label>
+          <input id="freqRange" type="range" step="0.001" min="0" max="1" value=".04">
+        </div>
+        <div>
+          <label for="octRange">numOctaves</label>
+          <input id="octRange" type="range" max="10" value="1">
+        </div>
+        <div>
+          <label for="seedNum">seed</label>
+          <input id="seedNum" type="number" value="0">
+        </div>
+        <div>
+          <label for="stitch">stitchTiles</label>
+          <input id="stitch" type="checkbox" value="stitchTiles">
+        </div>
+        <div>
+          <label for="types">type</label>
+          <select id="types">
+            <option value="fractalNoise">fractalNoise</option>
+            <option value="turbulence" selected>turbulence</option>
+          </select>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>feDisplacementMap</legend>
+        <div>
+          <label for="scaleRange">scale</label>
+          <input id="scaleRange" type="range" min="-100" max="100" value="50">
+        </div>
+        <div>TODO: xChannelSelector</div>
+        <div>TODO: yChannelSelector</div>
+      </fieldset>
+    </form>
+
+    <!-- interactivity (js) -->
+    <script>
+      function set(attr, val) {
+        const t1 = document.getElementById('filter').children[0]
+        const t2 = document.getElementById('fill').children[0]
+        t1.setAttribute(attr, val)
+        t2.setAttribute(attr, val)
+      }
+
+      // bind turbulence attributes to inputs
+      document.getElementById('freqRange').addEventListener('change', (e) => {
+        set('baseFrequency', e.target.value)
+      })
+      document.getElementById('octRange').addEventListener('change', (e) => {
+        set('numOctaves', e.target.value)
+      })
+      document.getElementById('seedNum').addEventListener('change', (e) => {
+        set('seed', e.target.value)
+      })
+      document.getElementById('stitch').addEventListener('change', (e) => {
+        set('stitchTiles', e.target.checked ? 'stitch' : 'noStitch')
+      })
+      document.getElementById('types').addEventListener('change', (e) => {
+        set('type', e.target.value)
+      })
+      // bind displacement attributes to inputs
+      document.getElementById('scaleRange').addEventListener('change', (e) => {
+        document.getElementById('filter').children[1].setAttribute('scale', e.target.value)
+      })
+      // bind text to input
+      document.getElementById('textInput').addEventListener('change', (e) => {
+        document.getElementById('text').innerText = e.target.value
+      })
+    </script>
+  </body>
+</html>
