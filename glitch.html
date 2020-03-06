@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <title>CSS Glitch Effect</title>
+    <meta name='description' content='CSS Glitch Effect'>
+    <link rel='icon' href='data:,'>
+
+    <style>
+      /* rules for js */
+      .glitch::before { top: 0; left: 0; }
+      .glitch::after { top: 0; left: 0; }
+      /* reset, general, layout */
+      * { box-sizing: border-box; }
+      body { font-family: sans-serif; margin: 0; height: 100vh; }
+      .container { display: flex; justify-content: center; align-items: center; }
+      /* glitch */
+      .glitch { position: relative; font-size: 10rem; color: rgba(255,0,255,.5); z-index: 0; }
+      .glitch::before, .glitch::after { content: "GLITCH"; position: absolute; }
+      .glitch::before { color: rgba(255,255,0,.7); z-index: -1; }
+      .glitch::after { color: rgba(0,255,255,.6); z-index: 1; }
+      /* svg/distort */
+      svg { width: 0; height: 0; }
+      .glitch { filter: url("#filter"); }
+    </style>
+  </head>
+
+  <body class="container">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="filter">
+        <feTurbulence baseFrequency=".02" numOctaves="3" type="fractalNoise" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="50"/>
+      </filter>
+    </svg>
+
+    <span class="glitch" id="glitch">GLITCH</span>
+
+    <script>
+      function logistic(x, max = 1) {
+        return max / (1 + Math.pow(Math.E, -.01 * x)) - (max / 2)
+      }
+      const text = document.getElementById('glitch')
+
+      document.addEventListener('mousemove', (e) => {
+        const styles = document.styleSheets[0]
+        styles.deleteRule(0)
+        styles.deleteRule(0)
+        
+        const top = logistic(e.y - (window.innerHeight / 2), 5)
+        const left = logistic(e.x - (window.innerWidth / 2), 5)
+        styles.insertRule(`.glitch::before { top: ${-top}rem; left: ${left}rem; }`, 0)
+        styles.insertRule(`.glitch::after { top: ${top}rem; left: ${-left}rem; }`, 0)
+      }, false)
+    </script>
+  </body>
+</html>
