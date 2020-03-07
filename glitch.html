@@ -10,17 +10,27 @@
     <style>
       /* reset, general, layout */
       * { box-sizing: border-box; }
-      body { font-family: sans-serif; margin: 0; height: 100vh; }
+      body { font-family: sans-serif; margin: 0; height: 100vh; width: 100vw; overflow: hidden; }
       .container { display: flex; justify-content: center; align-items: center; }
       /* glitch */
       .glitch { position: relative; font-size: 10rem; color: rgba(255,0,255,.5); z-index: 0; }
       .glitch::before, .glitch::after { content: "GLITCH"; position: absolute; transition: .1s left, .1s top; }
       .glitch::before { left: var(--bx); top: var(--by); color: rgba(255,255,0,.7); z-index: -1; }
       .glitch::after { left: var(--ax); top: var(--ay); color: rgba(0,255,255,.6); z-index: 1; }
-
       /* svg/distort */
       svg { width: 0; height: 0; }
       .glitch { filter: url("#filter"); }
+      /* media queries */
+      @media (prefers-reduced-motion: reduce) {
+        .glitch::before { left: -1rem; top: -1rem; }
+        .glitch::after { left: 1rem; top: 1rem; }
+      }
+      @media screen and (max-width: 750px) {
+        .glitch { font-size: 6rem; }
+      }
+      @media screen and (max-width: 500px) {
+        .glitch { font-size: 3rem; }
+      }
     </style>
   </head>
 
