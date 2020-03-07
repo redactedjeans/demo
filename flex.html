@@ -39,10 +39,9 @@
       }
 
       const text = document.getElementById('text')
-      // TODO: throttle the events
+      // TODO: throttle events, add mult-touch support(?)
       document.addEventListener('mousemove', (e) => { transform(e.x, e.y) }, false)
       document.addEventListener('touchmove', (e) => {
-        // TODO: support multi-touch? (maybe avg vals)
         transform(e.targetTouches[0].clientX, e.targetTouches[0].clientY)
       }, false)
     </script>

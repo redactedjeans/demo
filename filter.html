@@ -95,27 +95,27 @@
       // bind turbulence attributes to inputs
       document.getElementById('freqRange').addEventListener('change', (e) => {
         set('baseFrequency', e.target.value)
-      })
+      }, false)
       document.getElementById('octRange').addEventListener('change', (e) => {
         set('numOctaves', e.target.value)
-      })
+      }, false)
       document.getElementById('seedNum').addEventListener('change', (e) => {
         set('seed', e.target.value)
-      })
+      }, false)
       document.getElementById('stitch').addEventListener('change', (e) => {
         set('stitchTiles', e.target.checked ? 'stitch' : 'noStitch')
-      })
+      }, false)
       document.getElementById('types').addEventListener('change', (e) => {
         set('type', e.target.value)
-      })
+      }, false)
       // bind displacement attributes to inputs
       document.getElementById('scaleRange').addEventListener('change', (e) => {
         document.getElementById('filter').children[1].setAttribute('scale', e.target.value)
-      })
+      }, false)
       // bind text to input
       document.getElementById('textInput').addEventListener('change', (e) => {
         document.getElementById('text').innerText = e.target.value
-      })
+      }, false)
     </script>
   </body>
 </html>

@@ -48,13 +48,17 @@
       function logistic(x, max = 1) {
         return max / (1 + Math.pow(Math.E, -.01 * x)) - (max / 2)
       }
+      function glitch(x, y) {
+        const top = logistic(y - (window.innerHeight / 2), 5)
+        const left = logistic(x - (window.innerWidth / 2), 5)
+        text.setAttribute('style', `--bx: ${-top}rem; --by: ${left}rem; --ax: ${top}rem; --ay: ${-left}rem;`)
+      }
 
       const text = document.getElementById('glitch')
-      // TODO: throttle event
-      document.addEventListener('mousemove', (e) => {
-        const top = logistic(e.y - (window.innerHeight / 2), 5)
-        const left = logistic(e.x - (window.innerWidth / 2), 5)
-        text.setAttribute('style', `--bx: ${-top}rem; --by: ${left}rem; --ax: ${top}rem; --ay: ${-left}rem;`)
+      // TODO: throttle events, add mult-touch support(?)
+      document.addEventListener('mousemove', (e) => { glitch(e.x, e.y) }, false)
+      document.addEventListener('touchmove', (e) => {
+        glitch(e.targetTouches[0].clientX, e.targetTouches[0].clientY)
       }, false)
     </script>
   </body>
