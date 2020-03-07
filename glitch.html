@@ -3,8 +3,8 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width,initial-scale=1'>
-    <title>CSS Glitch Effect</title>
-    <meta name='description' content='CSS Glitch Effect'>
+    <title>GLITCH</title>
+    <meta name='description' content='GLITCH'>
     <link rel='icon' href='data:,'>
 
     <style>
@@ -14,7 +14,7 @@
       .container { display: flex; justify-content: center; align-items: center; }
       /* glitch */
       .glitch { position: relative; font-size: 10rem; color: rgba(255,0,255,.5); z-index: 0; }
-      .glitch::before, .glitch::after { content: "GLITCH"; position: absolute; }
+      .glitch::before, .glitch::after { content: "GLITCH"; position: absolute; transition: .1s left, .1s top; }
       .glitch::before { left: var(--bx); top: var(--by); color: rgba(255,255,0,.7); z-index: -1; }
       .glitch::after { left: var(--ax); top: var(--ay); color: rgba(0,255,255,.6); z-index: 1; }
 
@@ -32,7 +32,7 @@
       </filter>
     </svg>
 
-    <span class="glitch" id="glitch">GLITCH</span>
+    <span class="glitch" id="glitch" style="--bx: 0; --by: 0; --ax: 0; --ay: 0;">GLITCH</span>
 
     <script>
       function logistic(x, max = 1) {
