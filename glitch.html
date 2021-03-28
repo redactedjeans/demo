@@ -10,11 +10,12 @@
     <style>
       /* reset, general, layout */
       * { box-sizing: border-box; }
-      body { font-family: sans-serif; margin: 0; height: 100vh; width: 100vw; overflow: hidden; }
+      body { font-family: sans-serif; padding: 5rem; margin: 0; height: 100vh; width: 100vw; overflow: hidden; }
       .container { display: flex; justify-content: center; align-items: center; }
       /* glitch */
-      .glitch { position: relative; font-size: 10rem; color: rgba(255,0,255,.5); z-index: 0; }
-      .glitch::before, .glitch::after { content: "GLITCH"; position: absolute; left: 0; top: 0; transition: .1s left, .1s top; }
+      .glitch { position: relative; font-size: 10rem; text-align: center; color: rgba(255,0,255,.5); z-index: 0; }
+      .glitch, .glitch::before, .glitch::after { content: var(--text); }
+      .glitch::before, .glitch::after { position: absolute; left: 0; top: 0; transition: .1s left, .1s top; }
       .glitch::before { transform: translate(var(--bx), var(--by)); color: rgba(255,255,0,.7); z-index: -1; }
       .glitch::after { transform: translate(var(--ax), var(--ay)); color: rgba(0,255,255,.6); z-index: 1; }
       /* svg/distort */
@@ -42,23 +43,31 @@
       </filter>
     </svg>
 
-    <span class="glitch" id="glitch" style="--bx: 0; --by: 0; --ax: 0; --ay: 0;">GLITCH</span>
+    <span class="glitch" id="glitch" style="--bx: 0; --by: 0; --ax: 0; --ay: 0;"></span>
 
     <script>
       function logistic(x, max = 1) {
         return max / (1 + Math.pow(Math.E, -.01 * x)) - (max / 2)
       }
-      function glitch(x, y) {
+      function glitch(el, x, y) {
         const top = logistic(y - (window.innerHeight / 2), 5)
         const left = logistic(x - (window.innerWidth / 2), 5)
-        text.setAttribute('style', `--bx: ${-top}rem; --by: ${left}rem; --ax: ${top}rem; --ay: ${-left}rem;`)
+        el.setAttribute('style', `--bx: ${-top}rem; --by: ${left}rem; --ax: ${top}rem; --ay: ${-left}rem;`)
+      }
+      function getQueryVar(varName, defaultVal = '') {
+        const queryStr = location.search.substr(1).split('&').find(str => str.startsWith(varName)) || ''
+        return decodeURIComponent(queryStr.split('=')[1] || defaultVal)
       }
 
-      const text = document.getElementById('glitch')
-      // TODO: throttle events, add mult-touch support(?)
-      document.addEventListener('mousemove', (e) => { glitch(e.x, e.y) }, false)
+      const text = getQueryVar('text', 'GLITCH')
+      console.debug(`text: ${text}`)
+      const el = document.getElementById('glitch')
+      document.getElementsByTagName('body')[0].setAttribute('style', `--text: "${text}";`)
+      el.innerHTML = text
+      // TODO: throttle events, add multi-touch support(?)
+      document.addEventListener('mousemove', (e) => { glitch(el, e.x, e.y) }, false)
       document.addEventListener('touchmove', (e) => {
-        glitch(e.targetTouches[0].clientX, e.targetTouches[0].clientY)
+        glitch(el, e.targetTouches[0].clientX, e.targetTouches[0].clientY)
       }, false)
     </script>
   </body>
