@@ -14,8 +14,7 @@
       .container { display: flex; justify-content: center; align-items: center; }
       /* glitch */
       .glitch { position: relative; font-size: 10rem; color: rgba(255,0,255,.5); z-index: 0; }
-      .glitch, .glitch::before, .glitch::after { content: var(--text); }
-      .glitch::before, .glitch::after { position: absolute; left: 0; top: 0; transition: .1s left, .1s top; }
+      .glitch::before, .glitch::after { content: var(--text); position: absolute; left: 0; top: 0; transition: .1s linear transform; }
       .glitch::before { transform: translate(var(--bx), var(--by)); color: rgba(255,255,0,.7); z-index: -1; }
       .glitch::after { transform: translate(var(--ax), var(--ay)); color: rgba(0,255,255,.6); z-index: 1; }
       /* svg/distort */
